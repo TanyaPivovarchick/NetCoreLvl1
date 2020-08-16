@@ -1,0 +1,1 @@
+dotnet publish ./ConsoleAppNETCore/ConsoleAppNETCore.csproj -c Release --runtime win-x86 --no-self-contained -o D:/Test
