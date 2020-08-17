@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,12 +9,12 @@ namespace ConsoleAppNETCore
 {
     public class TestService : IHostedService
     {
-        private IConfiguration Config { get; }
+        private ConfigOptions Options { get; }
         private ILogger Logger { get; }
 
-        public TestService(IConfiguration config, ILogger<TestService> logger)
+        public TestService(IOptions<ConfigOptions> options, ILogger<TestService> logger)
         {
-            Config = config;
+            Options = options.Value;
             Logger = logger;
         }
 
@@ -27,7 +28,7 @@ namespace ConsoleAppNETCore
 
         public string ReturnNewString()
         {
-            return $"{Config["User:FirstName"]} {Config["User:LastName"]}";
+            return $"{Options.FirstName} {Options.LastName}";
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

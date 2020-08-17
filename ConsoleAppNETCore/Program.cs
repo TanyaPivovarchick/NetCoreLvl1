@@ -10,9 +10,18 @@ namespace ConsoleAppNETCore
 {
     class Program
     {
+        public static IConfiguration Configuration { get; set; }
+
         static async Task Main(string[] args)
         {
             Console.WriteLine(TestClass.GetCurrentDate());
+
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true)
+                .AddEnvironmentVariables(prefix: "PREFIX_")
+                .AddCommandLine(args)
+                .Build();
+
 
             await CreateHostBuilder(args).Build().RunAsync();
         }
@@ -28,6 +37,8 @@ namespace ConsoleAppNETCore
                 })
                 .ConfigureServices(services =>
                 {
+                    services.AddOptions<ConfigOptions>()
+                        .Bind(Configuration.GetSection(ConfigOptions.Section));
                     services.AddSingleton<IHostedService, TestService>();
                 });
     }
