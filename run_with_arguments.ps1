@@ -1,0 +1,1 @@
+dotnet run --project ./ConsoleAppNETCore/ConsoleAppNETCore.csproj --c Release User:FirstName=Tatyana User:LastName=Pivovarchick
