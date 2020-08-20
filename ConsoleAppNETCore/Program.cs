@@ -17,12 +17,6 @@ namespace ConsoleAppNETCore
         {
             Console.WriteLine(TestClass.GetCurrentDate());
 
-            Configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true)
-                .AddEnvironmentVariables(prefix: "PREFIX_")
-                .AddCommandLine(args)
-                .Build();
-
             await CreateHostBuilder(args).Build().RunAsync();
         }
 
@@ -40,10 +34,9 @@ namespace ConsoleAppNETCore
                     configHost.AddEnvironmentVariables(prefix: "PREFIX_");
                     configHost.AddCommandLine(args);
                 })
-                .ConfigureServices(services =>
+                .ConfigureServices((context, services) =>
                 {
-                    services.AddOptions<ConfigOptions>()
-                        .Bind(Configuration.GetSection(ConfigOptions.Section));
+                    services.Configure<ConfigOptions>(context.Configuration.GetSection(ConfigOptions.Section));
                     services.AddSingleton<IHostedService, TestService>();
                 });
     }
