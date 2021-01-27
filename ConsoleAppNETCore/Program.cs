@@ -37,7 +37,9 @@ namespace ConsoleAppNETCore
                 .ConfigureServices((context, services) =>
                 {
                     services.Configure<ConfigOptions>(context.Configuration.GetSection(ConfigOptions.Section));
-                    services.AddHostedService<TestService>();
+                    services.AddHostedService<TestHostedService>();
+                    services.AddHostedService<TestBackgroundService>();
+                    services.AddScoped<IWorker, Worker>();
                 });
     }
 }

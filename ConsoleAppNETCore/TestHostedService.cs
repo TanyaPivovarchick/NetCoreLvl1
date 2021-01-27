@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ConsoleAppNETCore
 {
-    public class TestService : IHostedService, IDisposable
+    public class TestHostedService : IHostedService, IDisposable
     {
         private ConfigOptions Options { get; }
         private ILogger Logger { get; }
         private Timer _timer;
         private bool _isDisposed = false;
 
-        public TestService(IOptions<ConfigOptions> options, ILogger<TestService> logger)
+        public TestHostedService(IOptions<ConfigOptions> options, ILogger<TestHostedService> logger)
         {
             Options = options.Value;
             Logger = logger;
@@ -22,7 +22,7 @@ namespace ConsoleAppNETCore
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation("Starting test service");
+            Logger.LogInformation("Starting TestHostedService");
 
             _timer = new Timer(_ => Logger.LogInformation(ReturnNewString()), null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
@@ -36,7 +36,7 @@ namespace ConsoleAppNETCore
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Logger.LogInformation("Stopping test service");
+            Logger.LogInformation("Stopping TestHostedService");
 
             return Task.CompletedTask;
         }
